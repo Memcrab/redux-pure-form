@@ -1,4 +1,4 @@
-import { FORM_ON_CHANGE } from './action-types.js';
+import { FIELD_ON_CHANGE } from './action-types.js';
 
 const INPUT = 'input';
 const INPUT_CHECKBOX = 'checkbox';
@@ -12,14 +12,20 @@ function getInputValue(target) {
   // select
   // multiple select
   // radio
+  // condition for react native elements
   return target.value;
 }
 
 
-function onChange(e) {
+export function onChange(e) {
   const target = e.currentTarget;
   const name = target.name;
-  const value = getInputValue(target)
+  const parser = target.parser;
+
+  const value = parser ?
+    parser(getInputValue(target)) :
+    getInputValue(target);
+
   // от этого поля может зависеть другое поле, нужно придумать как менять и его
   // другое поле может быть асинхронное и изменение произойдет только после запроса
   // форма должна уметь асинхронно валидироваться
@@ -27,8 +33,20 @@ function onChange(e) {
   // значение должно иметь возможность форматироваться перед выводом в поле
 
   return {
-    type: FORM_ON_CHANGE,
-    name,
-    value,
+    type: FIELD_ON_CHANGE,
+    payload: {
+      name, // имя будет указано с точками или даже с квадратными скобками
+      value,
+    },
+    payload: [
+      {
+        name,
+        value,
+      }
+      {
+        name2,
+        value2,
+      }
+    ]
   }
 }
