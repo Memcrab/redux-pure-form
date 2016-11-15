@@ -3,14 +3,25 @@ import { FIELD_ON_CHANGE } from './action-types.js';
 const INPUT = 'input';
 const INPUT_CHECKBOX = 'checkbox';
 const INPUT_RADIO = 'radio';
-const INPUT_SELECT = 'select';
+const INPUT_SELECT = 'select-one';
+const INPUT_SELECT_MULTIPLE = 'select-multiple';
 
 function getInputValue(target) {
   if (target.type === INPUT_CHECKBOX) {
     return target.checked ? '1' : '0';
   }
-  // select
-  // multiple select
+
+  if (target.type === INPUT_SELECT_MULTIPLE) {
+    const options = target.options;
+    const values = Array.prototype.reduce.call(options, (acc, option) => {
+      if (option.selected) {
+        return acc.concat(option.value);
+      }
+      return acc;
+    }, []);
+    return values;
+  }
+
   // radio
   // condition for react native elements
   return target.value;

@@ -6,13 +6,9 @@ export default function formReducer(state = {}, action) {
     case FIELD_ON_CHANGE:
       let newState = state;
       action.payload.forEach((field) => {
-        console.log('i here ');
         newState = set(field.name, field.value, newState);
       });
-      console.log('newState =>', newState);
       return newState;
-      // user.name
-      // user.setting.period
     default:
       return state;
   }

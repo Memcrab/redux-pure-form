@@ -16,11 +16,20 @@ class Example extends Component {
   }
 
   handle(e) {
-    this.props.fieldAttrs.onChange(e);
+    this.props.fieldAttrs.onChange([
+      {
+        name: e.target.name,
+        value: e.target.value,
+      },
+      {
+        name: 'user.surnameduplicate',
+        value: e.target.value,
+      },
+    ]);
   }
 
   render() {
-    console.log('fieldAttrs =>', this.props.fieldAttrs, this.props.user);
+    console.log('user =>', this.props.user);
     return (
       <form>
         <input
@@ -42,6 +51,24 @@ class Example extends Component {
           value={this.props.user.surnameduplicate || ''}
           {...this.props.fieldAttrs}
         />
+        <br />
+        <br />
+        <select value={this.props.user.gender} name="user.gender" {...this.props.fieldAttrs}>
+          <option value="1">male</option>
+          <option value="2">female</option>
+        </select>
+        <br />
+        <br />
+        <select
+          value={this.props.user.resources}
+          name="user.resources"
+          multiple="multiple"
+          size="2"
+          {...this.props.fieldAttrs}
+        >
+          <option value="1">res 1</option>
+          <option value="2">res 2</option>
+        </select>
       </form>
     );
   }
