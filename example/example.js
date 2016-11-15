@@ -16,16 +16,12 @@ class Example extends Component {
   }
 
   handle(e) {
-    this.props.fieldAttrs.onChange([
-      {
-        name: e.target.name,
+    this.props.fieldAttrs.onChange({
+      [e.target.name]: e.target.value,
+      'user.surnameduplicate': {
         value: e.target.value,
       },
-      {
-        name: 'user.surnameduplicate',
-        value: e.target.value,
-      },
-    ]);
+    });
   }
 
   render() {
