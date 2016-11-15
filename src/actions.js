@@ -16,15 +16,35 @@ function getInputValue(target) {
   return target.value;
 }
 
-
-export function onChange(e) {
+function getFiedlsFromEvent(e) {
   const target = e.currentTarget;
   const name = target.name;
-  const parser = target.parser;
+  const value = getInputValue(target);
+  return {
+    name,
+    value,
+  };
+}
 
-  const value = parser ?
-    parser(getInputValue(target)) :
-    getInputValue(target);
+export function onChange(name, value) {
+  let fields = null;
+
+  switch (true) {
+    case Boolean(typeof name === 'object' && name.type && name.target):
+      fields = [getFiedlsFromEvent(name)];
+      break;
+    case Boolean(typeof name === 'string' && typeof value !== 'undefined'):
+      fields = [{ name, value }];
+      break;
+    case Array.isArray(name):
+      fields = name;
+      break;
+    default:
+      console.warn('WARNING, not handled event in onChange');
+      break;
+  }
+
+  console.log('fields =>', fields);
 
   // от этого поля может зависеть другое поле, нужно придумать как менять и его
   // другое поле может быть асинхронное и изменение произойдет только после запроса
@@ -34,19 +54,6 @@ export function onChange(e) {
 
   return {
     type: FIELD_ON_CHANGE,
-    payload: {
-      name, // имя будет указано с точками или даже с квадратными скобками
-      value,
-    },
-    payload: [
-      {
-        name,
-        value,
-      }
-      {
-        name2,
-        value2,
-      }
-    ]
-  }
+    payload: fields,
+  };
 }

@@ -1,30 +1,19 @@
-import { set } from 'lodash/fp';
+import set from 'lodash/fp/set';
+import { FIELD_ON_CHANGE } from './action-types.js';
 
-export default function FormReducer(state = {}, action) {
+export default function formReducer(state = {}, action) {
   switch (action.type) {
     case FIELD_ON_CHANGE:
-      action.payload.forEach(() => {
-        newState = set(state, action.payload.name, action.payload.value);
-      })
+      let newState = state;
+      action.payload.forEach((field) => {
+        console.log('i here ');
+        newState = set(field.name, field.value, newState);
+      });
+      console.log('newState =>', newState);
       return newState;
       // user.name
       // user.setting.period
-    break;
-  }
-}
-
-
-function exampleReducer(state = {}, action) {
-  switch (action.type) {
-    case '1':
-      return {
-        ...state
-      }
-    break;
-    case '2':
-
-    break;
     default:
-      return FormReducer(state, action);
+      return state;
   }
 }
