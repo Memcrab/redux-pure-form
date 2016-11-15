@@ -13,6 +13,7 @@ class Example extends Component {
   constructor(props) {
     super(props);
     this.handle = this.handle.bind(this);
+    this.handle3 = this.handle3.bind(this);
   }
 
   handle(e) {
@@ -22,6 +23,10 @@ class Example extends Component {
         value: e.target.value,
       },
     });
+  }
+
+  handle3(e) {
+    console.log('i here ');
   }
 
   render() {
