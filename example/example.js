@@ -30,7 +30,7 @@ class Example extends Component {
   }
 
   render() {
-    console.log('user =>', this.props.user);
+    console.log('user =>', this.props);
     return (
       <form>
         <input
@@ -77,21 +77,29 @@ class Example extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.exampleReducer.user,
+    user: state.firstReducer.user,
+    profile: state.secondReducer.user,
   };
 }
 
-function exampleReducer(state = {}, action) {
+function firstReducer(state = {}, action) {
   switch (action.type) {
     default:
-      return formReducer(state, action);
+      return formReducer('user', state, action);
+  }
+}
+
+function secondReducer(state = {}, action) {
+  switch (action.type) {
+    default:
+      return formReducer('profile', state, action);
   }
 }
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
-  combineReducers({ exampleReducer }),
-  { exampleReducer: { user: { name: '12', surname: '123' } } },
+  combineReducers({ firstReducer, secondReducer }),
+  { firstReducer: { user: { name: '12', surname: '123' } } },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 /* eslint-enable */
