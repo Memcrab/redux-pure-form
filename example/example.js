@@ -21,6 +21,9 @@ class Example extends Component {
       [e.target.name]: e.target.value,
       'user.surnameduplicate': {
         value: e.target.value,
+        parser: (value) => {
+          return `${value}!`;
+        },
       },
     });
   }

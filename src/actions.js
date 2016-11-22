@@ -63,5 +63,6 @@ export function onChange(name, value) {
   return {
     type: FIELD_ON_CHANGE,
     payload: fields,
+    // дописать в мету состояние валидности полей
   };
 }
