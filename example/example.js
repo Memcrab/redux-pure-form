@@ -13,7 +13,7 @@ class Example extends Component {
   constructor(props) {
     super(props);
     this.handle = this.handle.bind(this);
-    this.handle3 = this.handle3.bind(this);
+    this.setDefaults = this.setDefaults.bind(this);
   }
 
   handle(e) {
@@ -21,15 +21,15 @@ class Example extends Component {
       [e.target.name]: e.target.value,
       'user.surnameduplicate': {
         value: e.target.value,
-        parser: (value) => {
-          return `${value}!`;
-        },
+        parser: value => `${value.toUpperCase().replace(/ /g, '')}!`,
       },
     });
   }
 
-  handle3(e) {
-    console.log('i here ');
+  setDefaults() {
+    this.props.fieldAttrs.onChange({
+      user: { name: 'superman' },
+    });
   }
 
   render() {
@@ -73,6 +73,9 @@ class Example extends Component {
           <option value="1">res 1</option>
           <option value="2">res 2</option>
         </select>
+        <br />
+        <br />
+        <button type="button" onClick={this.setDefaults}>set default values</button>
       </form>
     );
   }

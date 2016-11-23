@@ -32,6 +32,9 @@ const deepSet = (o, kp, v) =>
 
 function getComplexValue(value) {
   if (typeof value === 'object' && typeof value.value !== 'undefined') {
+    if (typeof value.parser === 'function') {
+      return value.parser(value.value);
+    }
     return value.value;
   }
   return value;
@@ -42,9 +45,9 @@ export default function formReducer(formName, state = {}, action) {
     case FIELD_ON_CHANGE:
       let newState = state;
       const fields = Object.keys(action.payload);
-      if (fields[0].startsWith(`${formName}.`)) {
+      if (fields[0].startsWith(`${formName}.`) || fields[0] === formName) {
         fields.forEach((name) => {
-          newState = deepSet(newState, name, getComplexValue(action.payload[name]));
+          newState = deepSet(newState, name, getComplexValue(action.payload[name], newState));
         });
       }
       return newState;
