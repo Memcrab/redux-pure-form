@@ -1,6 +1,6 @@
 {
   "name": "redux-pure-form",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Actions and reducers for redux",
   "main": "src/redux-pure-form.js",
   "directories": {
