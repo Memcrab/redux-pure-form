@@ -40,18 +40,14 @@ function getComplexValue(value) {
   return value;
 }
 
-export default function formReducer(formName, defaultState = {}, setToRoot = false) {
+export default function formReducer(formName, defaultState = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
         let newState = state;
         const fields = Object.keys(action.payload);
         if (fields[0].startsWith(`${formName}.`) || fields[0] === formName) {
-          let nextFieds = fields;
-          if (setToRoot) {
-            nextFieds = fields.slice(1);
-          }
-          nextFieds.forEach((name) => {
+          fields.forEach((name) => {
             newState = deepSet(newState, name, getComplexValue(action.payload[name], newState));
           });
         }
