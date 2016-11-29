@@ -91,14 +91,14 @@ function mapStateToProps(state) {
 function firstReducer(state = {}, action) {
   switch (action.type) {
     default:
-      return formReducer('user', state, action);
+      return formReducer('user')(state, action);
   }
 }
 
 function secondReducer(state = {}, action) {
   switch (action.type) {
     default:
-      return formReducer('profile', state, action);
+      return formReducer('profile')(state, action);
   }
 }
 
