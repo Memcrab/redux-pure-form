@@ -5,10 +5,10 @@ import { Provider, connect } from 'react-redux';
 import { formActions, mergeActionsToProps, formReducer } from '../dist/redux-pure-form.min.js';
 
 class Example extends Component {
-  static propTypes = {
-    user: PropTypes.object,
-    fieldAttrs: PropTypes.object,
-  }
+  // static propTypes = {
+  //   user: PropTypes.object,
+  //   fieldAttrs: PropTypes.object,
+  // }
 
   constructor(props) {
     super(props);
