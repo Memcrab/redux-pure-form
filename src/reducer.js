@@ -32,9 +32,9 @@ const deepSet = (o, kp, v) =>
 
 function getComplexValue(value) {
   if (
+    value !== null &&
     typeof value === 'object' &&
-    typeof value.value !== 'undefined' &&
-    value !== null
+    typeof value.value !== 'undefined'
   ) {
     if (typeof value.parser === 'function') {
       return value.parser(value.value);
