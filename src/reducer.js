@@ -50,11 +50,11 @@ export default function formReducer(formName, defaultState = {}) {
       case FIELD_ON_CHANGE:
         let newState = state;
         const fields = Object.keys(action.payload);
-        if (fields[0].startsWith(`${formName}.`) || fields[0] === formName) {
-          fields.forEach((name) => {
+        fields.forEach((name) => {
+          if (name.startsWith(`${formName}.`) || name === formName) {
             newState = deepSet(newState, name, getComplexValue(action.payload[name], newState));
-          });
-        }
+          }
+        });
         return newState;
       default:
         return state;
