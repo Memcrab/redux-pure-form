@@ -1,8 +1,8 @@
 {
   "name": "redux-pure-form",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Actions and reducers for redux",
-  "main": "src/redux-pure-form.js",
+  "main": "dist/redux-pure-form.min.js",
   "directories": {
     "example": "example"
   },
