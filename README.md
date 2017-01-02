@@ -34,11 +34,13 @@ class Example extends Component {
 
 // ...
 
+const formNameReducer = formReducer('formName');
+
 function firstReducer(state = {}, action) {
   switch (action.type) {
     default:
       // add form reducer as default reducer
-      return formReducer('formName', state, action);
+      return formNameReducer(state, action);
   }
 }
 
