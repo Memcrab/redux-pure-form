@@ -8,7 +8,18 @@ const INPUT_SELECT = 'select-one';
 
 function getFieldValue(target) {
   if (target.type === INPUT_CHECKBOX) {
-    return target.checked ? '1' : '0';
+    if (target.name.endsWith('[]')) {
+      return target.value;
+    }
+
+    switch (true) {
+      case target.value === 'true':
+        return target.checked ? 'true' : 'false';
+      case target.value === '1':
+        return target.checked ? '1' : '0';
+      default:
+        return target.checked ? target.value : null;
+    }
   }
 
   if (target.type === INPUT_SELECT_MULTIPLE) {
@@ -59,6 +70,5 @@ export function onChange(name, value) {
   return {
     type: FIELD_ON_CHANGE,
     payload: fields,
-    // дописать в мету состояние валидности полей
   };
 }

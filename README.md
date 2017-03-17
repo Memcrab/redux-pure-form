@@ -27,6 +27,35 @@ class Example extends Component {
           // add handlers from form
           {...this.props.fieldAttrs}
         />
+        <select
+          value={this.props.user.gender}
+          name="user.gender"
+          {...this.props.fieldAttrs}
+        >
+          <option value="male">male</option>
+          <option value="female">female</option>
+        </select>
+        <label>
+          <input
+            type="checkbox"
+            name="user.checkboxes[]"
+            checked={this.props.user.checkboxes.includes('1')}
+            value="1"
+            {...this.props.fieldAttrs}
+          />
+          First checkbox
+        </label>
+        <br />
+        <label>
+          <input
+            type="checkbox"
+            name="user.checkboxes[]"
+            checked={this.props.user.checkboxes.includes('2')}
+            value="2"
+            {...this.props.fieldAttrs}
+          />
+          Second one
+        </label>
       </form>
     );
   }
@@ -54,6 +83,8 @@ const Connected = connect(mapStateToProps, formActions, mergeActionsToProps)(Exa
 ## No Additional Settings Yet
 
 ## Changelog (latest on top)
+   - add array support
+   - change reducer API
    - first release
 
 ## Developing

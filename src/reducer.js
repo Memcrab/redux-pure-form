@@ -52,7 +52,18 @@ export default function formReducer(formName, defaultState = {}) {
         const fields = Object.keys(action.payload);
         fields.forEach((name) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
-            newState = deepSet(newState, name, getComplexValue(action.payload[name], newState));
+            if (name.endsWith('[]')) {
+              const nameInReducer = name.slice(0, -2);
+              const value = deepGet(newState, nameInReducer);
+              const valueFromAction = getComplexValue(action.payload[name]);
+              const index = value.indexOf(valueFromAction);
+              const nextValue = index > -1 ?
+                value.slice(0, index).concat(value.slice(index + 1)) :
+                value.concat(valueFromAction);
+              newState = deepSet(newState, nameInReducer, nextValue);
+            } else {
+              newState = deepSet(newState, name, getComplexValue(action.payload[name]));
+            }
           }
         });
         return newState;
