@@ -1,12 +1,13 @@
+// @flow
 import { FIELD_ON_CHANGE } from './action-types.js';
 
-const INPUT_CHECKBOX = 'checkbox';
-const INPUT_SELECT_MULTIPLE = 'select-multiple';
-const INPUT = 'input';
-const INPUT_RADIO = 'radio';
-const INPUT_SELECT = 'select-one';
+const INPUT_CHECKBOX: string = 'checkbox';
+const INPUT_SELECT_MULTIPLE: string = 'select-multiple';
+const INPUT: string = 'input';
+const INPUT_RADIO: string = 'radio';
+const INPUT_SELECT: string = 'select-one';
 
-function getFieldValue(target) {
+function getFieldValue(target: Object): string | null | string[] {
   if (target.type === INPUT_CHECKBOX) {
     if (target.name.endsWith('[]')) {
       return target.value;
@@ -23,7 +24,7 @@ function getFieldValue(target) {
   }
 
   if (target.type === INPUT_SELECT_MULTIPLE) {
-    const values = Array.prototype.reduce.call(target.options, (acc, option) => {
+    const values: string[] = Array.prototype.reduce.call(target.options, (acc, option) => {
       if (option.selected) {
         return acc.concat(option.value);
       }
@@ -37,17 +38,19 @@ function getFieldValue(target) {
   return target.value;
 }
 
-function getFiedlsFromEvent(e) {
-  const target = e.currentTarget;
-  const name = target.name;
-  const value = getFieldValue(target);
+function getFiedlsFromEvent(e): Object {
+  const target: Object = e.currentTarget;
+  const name: string = target.name;
+  const value: string | null | string[] = getFieldValue(target);
   return {
     [name]: value,
   };
 }
 
-export function onChange(name, value) {
-  let fields = null;
+export function onChange(name: any, value: any): Object {
+  let fields: ?Object = null;
+  console.log(name.target.options);
+  console.log(getFieldValue(name.target));
 
   switch (true) {
     // event

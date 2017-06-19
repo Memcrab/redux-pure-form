@@ -1,10 +1,11 @@
-const defaultAttrs = ['onChange'];
+// @flow
+const defaultAttrs:string[] = ['onChange'];
 const attrsActionsRels = {
   onChange: 'onChange',
 };
 
-function mapActionsToAttrs(actions, attrs = defaultAttrs) {
-  return attrs.reduce((acc, attr) => {
+function mapActionsToAttrs(actions: Object, attrs: string[] = defaultAttrs): Object {
+  return attrs.reduce((acc: Object, attr: string) => {
     return {
       ...acc,
       [attr]: actions[attrsActionsRels[attr]],
@@ -12,7 +13,7 @@ function mapActionsToAttrs(actions, attrs = defaultAttrs) {
   }, {});
 }
 
-function mergeActionsToProps(stateProps, dispatchProps, ownProps) {
+function mergeActionsToProps(stateProps: Object, dispatchProps: Object, ownProps: Object): Object {
   return Object.assign(
     {},
     ownProps,
