@@ -49,8 +49,6 @@ function getFiedlsFromEvent(e): Object {
 
 export function onChange(name: any, value: any): Object {
   let fields: ?Object = null;
-  console.log(name.target.options);
-  console.log(getFieldValue(name.target));
 
   switch (true) {
     // event
