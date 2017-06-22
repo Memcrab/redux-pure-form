@@ -31,7 +31,7 @@ const deepSet = (o: Object, kp: string | string[], v: any): Object =>
     Object.assign({}, deepGet(o, ks.slice(0, i)), { [k]: v }), v);
 
 
-function getComplexValue(value: string[] | Object): string | string[] {
+function getComplexValue(value) {
   if (
     value !== null &&
     typeof value === 'object' &&
@@ -45,7 +45,7 @@ function getComplexValue(value: string[] | Object): string | string[] {
   return value;
 }
 
-export default function formReducer(formName: string, defaultState: Object = {}): Object {
+export default function formReducer(formName: string, defaultState: Object = {}) {
   return (state: Object = defaultState, action: Object) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
@@ -55,10 +55,10 @@ export default function formReducer(formName: string, defaultState: Object = {})
           if (name.startsWith(`${formName}.`) || name === formName) {
             if (name.endsWith('[]')) {
               const nameInReducer: string = name.slice(0, -2);
-              const value: string[] = deepGet(newState, nameInReducer);
-              const valueFromAction: string | string[] = getComplexValue(action.payload[name]);
-              const index: number = value.indexOf(valueFromAction);
-              const nextValue: string[] = index > -1 ?
+              const value: Object = deepGet(newState, nameInReducer);
+              const valueFromAction = getComplexValue(action.payload[name]);
+              const index = value.indexOf(valueFromAction);
+              const nextValue = index > -1 ?
                 value.slice(0, index).concat(value.slice(index + 1)) :
                 value.concat(valueFromAction);
               newState = deepSet(newState, nameInReducer, nextValue);
