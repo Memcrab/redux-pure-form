@@ -1,12 +1,11 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { createStore, combineReducers } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { formActions, mergeActionsToProps, formReducer } from '../dist/redux-pure-form.min.js';
 
 class Example extends Component {
-  constructor(props: {user: Object, fieldAttrs: Object}) {
+  constructor(props) {
     super(props);
     this.handle = this.handle.bind(this);
     this.setDefaults = this.setDefaults.bind(this);
@@ -107,21 +106,26 @@ class Example extends Component {
   }
 }
 
-function mapStateToProps(state: Object): Object {
+Example.propTypes = {
+  user: PropTypes.object,
+  fieldAttrs: PropTypes.object,
+};
+
+function mapStateToProps(state) {
   return {
     user: state.firstReducer.user,
     profile: state.secondReducer.user,
   };
 }
 
-function firstReducer(state: Object = {}, action: Object): Object {
+function firstReducer(state = {}, action) {
   switch (action.type) {
     default:
       return formReducer('user')(state, action);
   }
 }
 
-function secondReducer(state: Object = {}, action: Object): Object {
+function secondReducer(state = {}, action) {
   switch (action.type) {
     default:
       return formReducer('profile')(state, action);

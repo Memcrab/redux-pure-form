@@ -1,15 +1,14 @@
-// @flow
 import { FIELD_ON_CHANGE } from './action-types.js';
 
 // ensure the keys being passed is an array of key paths
 // example: 'a.b' becomes ['a', 'b'] unless it was already ['a', 'b']
-const keys = (ks: string | string[]): string[] => (Array.isArray(ks) ? ks : ks.split('.'));
+const keys = ks => (Array.isArray(ks) ? ks : ks.split('.'));
 
 // traverse the set of keys left to right,
 // returning the current value in each iteration.
 // if at any point the value for the current key does not exist,
 // return the default value
-const deepGet = (o: Object, kp: string | string[], d: any): any => keys(kp).reduce((o, k) => o && o[k] || d, o);
+const deepGet = (o, kp, d) => keys(kp).reduce((o, k) => o && o[k] || d, o);
 
 /**
  * traverse the set of keys right to left,
@@ -26,8 +25,8 @@ const deepGet = (o: Object, kp: string | string[], d: any): any => keys(kp).redu
  * @param  {any} v     [description]
  * @return {object}    [description]
  */
-const deepSet = (o: Object, kp: string | string[], v: any): Object =>
-  keys(kp).reduceRight((v, k, i, ks): Object =>
+const deepSet = (o, kp, v) =>
+  keys(kp).reduceRight((v, k, i, ks) =>
     Object.assign({}, deepGet(o, ks.slice(0, i)), { [k]: v }), v);
 
 
@@ -45,17 +44,17 @@ function getComplexValue(value) {
   return value;
 }
 
-export default function formReducer(formName: string, defaultState: Object = {}) {
-  return (state: Object = defaultState, action: Object) => {
+export default function formReducer(formName, defaultState = {}) {
+  return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
-        let newState: Object = state;
-        const fields: string[] = Object.keys(action.payload);
-        fields.forEach((name: string) => {
+        let newState = state;
+        const fields = Object.keys(action.payload);
+        fields.forEach((name) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
             if (name.endsWith('[]')) {
-              const nameInReducer: string = name.slice(0, -2);
-              const value: Object = deepGet(newState, nameInReducer);
+              const nameInReducer = name.slice(0, -2);
+              const value = deepGet(newState, nameInReducer);
               const valueFromAction = getComplexValue(action.payload[name]);
               const index = value.indexOf(valueFromAction);
               const nextValue = index > -1 ?
