@@ -5,7 +5,7 @@ const attrsActionsRels = {
 };
 
 function mapActionsToAttrs(actions: Object, attrs: string[] = defaultAttrs): Object {
-  return attrs.reduce((acc: Object, attr: string) => {
+  return attrs.reduce((acc: { onChange?: string }, attr: string) => {
     return {
       ...acc,
       [attr]: actions[attrsActionsRels[attr]],
