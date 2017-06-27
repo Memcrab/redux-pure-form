@@ -1,5 +1,6 @@
 // @flow
 import { FIELD_ON_CHANGE } from './action-types.js';
+import type { Action } from './types.js';
 
 // ensure the keys being passed is an array of key paths
 // example: 'a.b' becomes ['a', 'b'] unless it was already ['a', 'b']
@@ -46,7 +47,7 @@ function getComplexValue(value: string[] | Object): string | string[] {
 }
 
 export default function formReducer(formName: string, defaultState: Object = {}): Object {
-  return (state: Object = defaultState, action: Object) => {
+  return (state: Object = defaultState, action: Action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
         let newState: Object = state;

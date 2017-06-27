@@ -4,6 +4,7 @@ import { createStore, combineReducers } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { formActions, mergeActionsToProps, formReducer } from '../dist/redux-pure-form.min.js';
+import type { Action } from '../src/types.js';
 
 class Example extends Component {
   constructor(props: {user: Object, fieldAttrs: Object}) {
@@ -24,7 +25,7 @@ class Example extends Component {
 
   setDefaults() {
     this.props.fieldAttrs.onChange({
-      user: { name: 'superman' },
+      'user.name': 'superman',
     });
   }
 
@@ -114,14 +115,14 @@ function mapStateToProps(state: Object): Object {
   };
 }
 
-function firstReducer(state: Object = {}, action: Object): Object {
+function firstReducer(state: Object = {}, action: Action): Object {
   switch (action.type) {
     default:
       return formReducer('user')(state, action);
   }
 }
 
-function secondReducer(state: Object = {}, action: Object): Object {
+function secondReducer(state: Object = {}, action: Action): Object {
   switch (action.type) {
     default:
       return formReducer('profile')(state, action);

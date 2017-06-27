@@ -4,7 +4,8 @@
     "plugin:flowtype/recommended"
   ],
   "plugins": [
-    "flowtype"
+    "flowtype",
+    "flowtype-errors"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -20,6 +21,7 @@
     "no-case-declarations": 0,
     "import/extensions": 0,
     "import/prefer-default-export": 0,
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "flowtype-errors/show-errors": 2
   }
 }
