@@ -3,8 +3,9 @@ const attrsActionsRels = {
   onChange: 'onChange',
 };
 
-function mapActionsToAttrs(actions, attrs = defaultAttrs) {
-  return attrs.reduce((acc, attr) => {
+
+function mapActionsToAttrs(actions: Object, attrs: string[] = defaultAttrs): Object {
+  return attrs.reduce((acc: { onChange?: string }, attr: string) => {
     return {
       ...acc,
       [attr]: actions[attrsActionsRels[attr]],
