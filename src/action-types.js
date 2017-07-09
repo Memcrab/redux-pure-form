@@ -1,1 +1,2 @@
-export const FIELD_ON_CHANGE = 'FIELD_ON_CHANGE';
+// @flow
+export const FIELD_ON_CHANGE: string = 'FIELD_ON_CHANGE';
