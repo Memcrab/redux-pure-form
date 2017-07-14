@@ -50,6 +50,9 @@ export default function formReducer(formName, defaultState = {}) {
       case FIELD_ON_CHANGE:
         let newState = state;
         const fields = Object.keys(action.payload);
+        if (fields[0] === formName) {
+          return { ...action.payload[formName] };
+        }
         fields.forEach((name) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
             let nameInReducer = name.slice(formName.length + 1);
