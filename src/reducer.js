@@ -46,8 +46,18 @@ function getComplexValue(value: string[] | Object): string | string[] {
   return value;
 }
 
-export default function formReducer(formName: string, defaultState: Object = {}): Object {
-  return (state: Object = defaultState, action: Action) => {
+function getNextValue(name, nameInReducer, newState, action) {
+  const value = deepGet(newState, nameInReducer) || [];
+  const valueFromAction = getComplexValue(action.payload[name]);
+  const index = value.indexOf(valueFromAction);
+  const nextValue = index > -1 ?
+    value.slice(0, index).concat(value.slice(index + 1)) :
+    value.concat(valueFromAction);
+  return nextValue;
+}
+
+export function formReducer(formName, defaultState = {}) {
+  return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
         let newState: Object = state;
@@ -55,16 +65,39 @@ export default function formReducer(formName: string, defaultState: Object = {})
         fields.forEach((name: string) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
             if (name.endsWith('[]')) {
-              const nameInReducer: string = name.slice(0, -2);
-              const value: string[] = deepGet(newState, nameInReducer);
-              const valueFromAction: string | string[] = getComplexValue(action.payload[name]);
-              const index: number = value.indexOf(valueFromAction);
-              const nextValue: string[] = index > -1 ?
-                value.slice(0, index).concat(value.slice(index + 1)) :
-                value.concat(valueFromAction);
+              const nameInReducer = name.slice(0, -2);
+              const nextValue = getNextValue(name, nameInReducer, newState, action);
               newState = deepSet(newState, nameInReducer, nextValue);
             } else {
               newState = deepSet(newState, name, getComplexValue(action.payload[name]));
+            }
+          }
+        });
+        return newState;
+      default:
+        return state;
+    }
+  };
+}
+
+export function createFormReducer(formName, defaultState = {}) {
+  return (state = defaultState, action) => {
+    switch (action.type) {
+      case FIELD_ON_CHANGE:
+        let newState = state;
+        const fields = Object.keys(action.payload);
+        if (fields[0] === formName) {
+          return { ...action.payload[formName] };
+        }
+        fields.forEach((name) => {
+          if (name.startsWith(`${formName}.`) || name === formName) {
+            let nameInReducer = name.slice(formName.length + 1);
+            if (name.endsWith('[]')) {
+              nameInReducer = nameInReducer.slice(0, -2);
+              const nextValue = getNextValue(name, nameInReducer, newState, action);
+              newState = deepSet(newState, nameInReducer, nextValue);
+            } else {
+              newState = deepSet(newState, nameInReducer, getComplexValue(action.payload[name]));
             }
           }
         });
