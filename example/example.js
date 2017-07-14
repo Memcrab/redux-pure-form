@@ -23,7 +23,7 @@ class Example extends Component {
 
   setDefaults() {
     this.props.fieldAttrs.onChange({
-      'user.name': 'superman',
+      user: { name: 'superman' },
     });
   }
 
@@ -75,7 +75,7 @@ class Example extends Component {
             <input
               type="checkbox"
               name="user.checkboxes[]"
-              checked={this.props.user.checkboxes.includes('1')}
+              checked={this.props.user.checkboxes ? this.props.user.checkboxes.includes('1') : false}
               value="1"
               {...this.props.fieldAttrs}
             />
@@ -86,7 +86,7 @@ class Example extends Component {
             <input
               type="checkbox"
               name="user.checkboxes[]"
-              checked={this.props.user.checkboxes.includes('2')}
+              checked={this.props.user.checkboxes ? this.props.user.checkboxes.includes('2') : false}
               value="2"
               {...this.props.fieldAttrs}
             />
@@ -137,3 +137,4 @@ render((
     <Connected />
   </Provider>
 ), document.getElementById('js--content'));
+
