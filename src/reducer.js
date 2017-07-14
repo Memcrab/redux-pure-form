@@ -67,7 +67,7 @@ export default function formReducer(formName, defaultState = {}, options = {}) {
                 value.concat(valueFromAction);
               newState = deepSet(newState, nameInReducer, nextValue);
             } else {
-              newState = deepSet(newState, nameInReducer, getComplexValue(action.payload[name]));
+              newState = deepSet(newState, nameInReducer || name, getComplexValue(action.payload[name]));
             }
           }
         });
