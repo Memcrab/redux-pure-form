@@ -44,21 +44,22 @@ function getComplexValue(value) {
   return value;
 }
 
-export default function formReducer(formName, defaultState = {}) {
+export default function formReducer(formName, defaultState = {}, options = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
         let newState = state;
+        let nameInReducer;
         const fields = Object.keys(action.payload);
-        if (fields[0] === formName) {
+        if (fields[0] === formName && options.putInRoot) {
           return { ...action.payload[formName] };
         }
         fields.forEach((name) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
-            let nameInReducer = name.slice(formName.length + 1);
+            if (options.putInRoot) nameInReducer = name.slice(formName.length + 1);
             if (name.endsWith('[]')) {
-              nameInReducer = nameInReducer.slice(0, -2);
-              const value = deepGet(newState, nameInReducer);
+              nameInReducer = nameInReducer ? nameInReducer.slice(0, -2) : name.slice(0, -2);
+              const value = deepGet(newState, nameInReducer) || [];
               const valueFromAction = getComplexValue(action.payload[name]);
               const index = value.indexOf(valueFromAction);
               const nextValue = index > -1 ?
