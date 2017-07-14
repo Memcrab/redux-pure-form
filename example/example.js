@@ -23,7 +23,7 @@ class Example extends Component {
 
   setDefaults() {
     this.props.fieldAttrs.onChange({
-      user: { name: 'superman' },
+      'user.name': 'superman',
     });
   }
 
@@ -99,6 +99,7 @@ class Example extends Component {
         <div>
           <pre>
             {JSON.stringify(this.props.user, null, 2)}
+            {JSON.stringify(this.props.profile, null, 2)}
           </pre>
         </div>
       </div>
@@ -113,29 +114,18 @@ Example.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.firstReducer.user,
-    profile: state.secondReducer.user,
+    user: state.user,
+    profile: state.profile,
   };
 }
 
-function firstReducer(state = {}, action) {
-  switch (action.type) {
-    default:
-      return formReducer('user')(state, action);
-  }
-}
-
-function secondReducer(state = {}, action) {
-  switch (action.type) {
-    default:
-      return formReducer('profile')(state, action);
-  }
-}
+const user = formReducer('user');
+const profile = formReducer('profile');
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
-  combineReducers({ firstReducer, secondReducer }),
-  { firstReducer: { user: { name: '12', surname: '123', checkboxes: [] } } },
+  combineReducers({ user, profile }),
+  { user: { name: '12', surname: '123', checkboxes: [] } },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 /* eslint-enable */
@@ -147,4 +137,3 @@ render((
     <Connected />
   </Provider>
 ), document.getElementById('js--content'));
-
