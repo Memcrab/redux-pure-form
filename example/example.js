@@ -2,7 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { createStore, combineReducers } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import { formActions, mergeActionsToProps, formReducer } from '../dist/redux-pure-form.min.js';
+import {
+  formActions,
+  mergeActionsToProps,
+  formReducer,
+  createFormReducer,
+} from '../dist/redux-pure-form.min.js';
 
 class Example extends Component {
   constructor(props) {
@@ -182,13 +187,13 @@ Example.propTypes = {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    profile: state.profile.profile,
+    profile: state.ReducerWithNesting.profile,
   };
 }
 
-const user = formReducer('user', {}, { putInRoot: true });
+const user = createFormReducer('user');
 
-function profile(state = {}, action) {
+function ReducerWithNesting(state = {}, action) {
   switch (action.type) {
     default:
       return formReducer('profile')(state, action);
@@ -197,10 +202,10 @@ function profile(state = {}, action) {
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
-  combineReducers({ user, profile }),
+  combineReducers({ user, ReducerWithNesting }),
   {
     user: { name: '12', surname: '123', checkboxes: [] },
-    profile: { profile: { name: 'profile', surname: '123', checkboxes: [] } },
+    ReducerWithNesting: { profile: { name: 'profile', surname: '123', checkboxes: [] } },
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );

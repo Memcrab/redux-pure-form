@@ -44,21 +44,16 @@ function getComplexValue(value) {
   return value;
 }
 
-export default function formReducer(formName, defaultState = {}, options = {}) {
+export function formReducer(formName, defaultState = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
         let newState = state;
-        let nameInReducer;
         const fields = Object.keys(action.payload);
-        if (fields[0] === formName && options.putInRoot) {
-          return { ...action.payload[formName] };
-        }
         fields.forEach((name) => {
           if (name.startsWith(`${formName}.`) || name === formName) {
-            if (options.putInRoot) nameInReducer = name.slice(formName.length + 1);
             if (name.endsWith('[]')) {
-              nameInReducer = nameInReducer ? nameInReducer.slice(0, -2) : name.slice(0, -2);
+              const nameInReducer = name.slice(0, -2);
               const value = deepGet(newState, nameInReducer) || [];
               const valueFromAction = getComplexValue(action.payload[name]);
               const index = value.indexOf(valueFromAction);
@@ -67,7 +62,40 @@ export default function formReducer(formName, defaultState = {}, options = {}) {
                 value.concat(valueFromAction);
               newState = deepSet(newState, nameInReducer, nextValue);
             } else {
-              newState = deepSet(newState, nameInReducer || name, getComplexValue(action.payload[name]));
+              newState = deepSet(newState, name, getComplexValue(action.payload[name]));
+            }
+          }
+        });
+        return newState;
+      default:
+        return state;
+    }
+  };
+}
+
+export function createFormReducer(formName, defaultState = {}) {
+  return (state = defaultState, action) => {
+    switch (action.type) {
+      case FIELD_ON_CHANGE:
+        let newState = state;
+        const fields = Object.keys(action.payload);
+        if (fields[0] === formName) {
+          return { ...action.payload[formName] };
+        }
+        fields.forEach((name) => {
+          if (name.startsWith(`${formName}.`) || name === formName) {
+            let nameInReducer = name.slice(formName.length + 1);
+            if (name.endsWith('[]')) {
+              nameInReducer = nameInReducer.slice(0, -2);
+              const value = deepGet(newState, nameInReducer) || [];
+              const valueFromAction = getComplexValue(action.payload[name]);
+              const index = value.indexOf(valueFromAction);
+              const nextValue = index > -1 ?
+                value.slice(0, index).concat(value.slice(index + 1)) :
+                value.concat(valueFromAction);
+              newState = deepSet(newState, nameInReducer, nextValue);
+            } else {
+              newState = deepSet(newState, nameInReducer, getComplexValue(action.payload[name]));
             }
           }
         });
