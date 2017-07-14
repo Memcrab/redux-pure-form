@@ -28,7 +28,7 @@ class Example extends Component {
   }
 
   render() {
-    // console.log('user =>', this.props);
+    console.log('user =>', this.props);
     return (
       <div className="row">
         <form>
@@ -182,19 +182,25 @@ Example.propTypes = {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    profile: state.profile,
+    profile: state.profile.profile,
   };
 }
 
 const user = formReducer('user', {}, { putInRoot: true });
-const profile = formReducer('profile', {}, { putInRoot: true });
+
+function profile(state = {}, action) {
+  switch (action.type) {
+    default:
+      return formReducer('profile')(state, action);
+  }
+}
 
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
   combineReducers({ user, profile }),
   {
     user: { name: '12', surname: '123', checkboxes: [] },
-    profile: { name: 'profile', surname: '123', checkboxes: [] },
+    profile: { profile: { name: 'profile', surname: '123', checkboxes: [] } },
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
