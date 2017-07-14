@@ -16,10 +16,10 @@ class Example extends Component {
     this.setDefaults = this.setDefaults.bind(this);
   }
 
-  handle(e) {
+  handle(e, formName) {
     this.props.fieldAttrs.onChange({
       [e.target.name]: e.target.value,
-      'user.surnameduplicate': {
+      [`${formName}.surnameduplicate`]: {
         value: e.target.value,
         parser: value => `${value.toUpperCase().replace(/ /g, '')}!`,
       },
@@ -33,7 +33,7 @@ class Example extends Component {
   }
 
   render() {
-    console.log('user =>', this.props);
+    // console.log('user =>', this.props);
     return (
       <div className="row">
         <form>
@@ -48,7 +48,7 @@ class Example extends Component {
             name="user.surname"
             value={this.props.user.surname}
             {...this.props.fieldAttrs}
-            onChange={this.handle}
+            onChange={e => this.handle(e, 'user')}
           />
           <input
             type="text"
@@ -113,7 +113,7 @@ class Example extends Component {
             name="profile.surname"
             value={this.props.profile.surname}
             {...this.props.fieldAttrs}
-            onChange={this.handle}
+            onChange={e => this.handle(e, 'profile')}
           />
           <input
             type="text"

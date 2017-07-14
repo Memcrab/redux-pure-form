@@ -44,6 +44,16 @@ function getComplexValue(value) {
   return value;
 }
 
+function getNextValue(name, nameInReducer, newState, action) {
+  const value = deepGet(newState, nameInReducer) || [];
+  const valueFromAction = getComplexValue(action.payload[name]);
+  const index = value.indexOf(valueFromAction);
+  const nextValue = index > -1 ?
+    value.slice(0, index).concat(value.slice(index + 1)) :
+    value.concat(valueFromAction);
+  return nextValue;
+}
+
 export function formReducer(formName, defaultState = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
@@ -54,12 +64,7 @@ export function formReducer(formName, defaultState = {}) {
           if (name.startsWith(`${formName}.`) || name === formName) {
             if (name.endsWith('[]')) {
               const nameInReducer = name.slice(0, -2);
-              const value = deepGet(newState, nameInReducer) || [];
-              const valueFromAction = getComplexValue(action.payload[name]);
-              const index = value.indexOf(valueFromAction);
-              const nextValue = index > -1 ?
-                value.slice(0, index).concat(value.slice(index + 1)) :
-                value.concat(valueFromAction);
+              const nextValue = getNextValue(name, nameInReducer, newState, action);
               newState = deepSet(newState, nameInReducer, nextValue);
             } else {
               newState = deepSet(newState, name, getComplexValue(action.payload[name]));
@@ -87,12 +92,7 @@ export function createFormReducer(formName, defaultState = {}) {
             let nameInReducer = name.slice(formName.length + 1);
             if (name.endsWith('[]')) {
               nameInReducer = nameInReducer.slice(0, -2);
-              const value = deepGet(newState, nameInReducer) || [];
-              const valueFromAction = getComplexValue(action.payload[name]);
-              const index = value.indexOf(valueFromAction);
-              const nextValue = index > -1 ?
-                value.slice(0, index).concat(value.slice(index + 1)) :
-                value.concat(valueFromAction);
+              const nextValue = getNextValue(name, nameInReducer, newState, action);
               newState = deepSet(newState, nameInReducer, nextValue);
             } else {
               newState = deepSet(newState, nameInReducer, getComplexValue(action.payload[name]));
