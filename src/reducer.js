@@ -56,7 +56,7 @@ function getNextValue(name, nameInReducer, newState, action) {
   return nextValue;
 }
 
-export function formReducer(formName, defaultState = {}) {
+export function formReducer(formName: string, defaultState = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:
@@ -80,7 +80,7 @@ export function formReducer(formName, defaultState = {}) {
   };
 }
 
-export function createFormReducer(formName, defaultState = {}) {
+export function createFormReducer(formName: string, defaultState = {}) {
   return (state = defaultState, action) => {
     switch (action.type) {
       case FIELD_ON_CHANGE:

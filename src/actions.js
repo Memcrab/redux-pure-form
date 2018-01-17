@@ -2,13 +2,13 @@
 import { FIELD_ON_CHANGE } from './action-types.js';
 import type { Action } from './types.js';
 
-const INPUT_CHECKBOX: string = 'checkbox';
-const INPUT_SELECT_MULTIPLE: string = 'select-multiple';
-const INPUT: string = 'input';
-const INPUT_RADIO: string = 'radio';
-const INPUT_SELECT: string = 'select-one';
+const INPUT_CHECKBOX = 'checkbox';
+const INPUT_SELECT_MULTIPLE = 'select-multiple';
+const INPUT = 'input';
+const INPUT_RADIO = 'radio';
+const INPUT_SELECT = 'select-one';
 
-type FieldValue = string | null | string[];
+type FieldValue = string | null | string[] | 1 | 0;
 
 function getFieldValue(target: Object): FieldValue {
   if (target.type === INPUT_CHECKBOX) {
@@ -17,10 +17,10 @@ function getFieldValue(target: Object): FieldValue {
     }
 
     switch (true) {
-      case target.value === 'true':
-        return target.checked ? 'true' : 'false';
-      case target.value === '1':
-        return target.checked ? '1' : '0';
+      case (target.value === 'true'):
+        return target.checked;
+      case (target.value === '1'):
+        return target.checked ? 1 : 0;
       default:
         return target.checked ? target.value : null;
     }
