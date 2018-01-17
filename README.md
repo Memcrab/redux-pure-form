@@ -83,6 +83,7 @@ const Connected = connect(mapStateToProps, formActions, mergeActionsToProps)(Exa
 ## No Additional Settings Yet
 
 ## Changelog (latest on top)
+   - Breaking: checkbox values `'1'` and `'true'` will be converted to `1` and `true` respectively
    - add array support
    - change reducer API
    - first release
