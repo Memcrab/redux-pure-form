@@ -1,4 +1,4 @@
-# redux-pure-form  [![npm package](https://img.shields.io/npm/v/redux-pure-form.svg?style=flat-square)](https://www.npmjs.org/package/redux-pure-form) [![Build Status](https://travis-ci.org/memCrab/react-pure-modal.svg?branch=master)](https://travis-ci.org/memCrab/redux-pure-form) [![Dependency Status](https://david-dm.org/memCrab/redux-pure-form.svg)](https://david-dm.org/memCrab/redux-pure-form)
+# redux-pure-form  [![npm package](https://img.shields.io/npm/v/redux-pure-form.svg?style=flat-square)](https://www.npmjs.org/package/redux-pure-form) [![Build Status](https://travis-ci.org/memCrab/redux-pure-form.svg?branch=master)](https://travis-ci.org/memCrab/redux-pure-form) [![Dependency Status](https://david-dm.org/memCrab/redux-pure-form.svg)](https://david-dm.org/memCrab/redux-pure-form)
 
 Redux actions for good performance and hight integration with your reducers
 - Very small (less than 4Kb)
